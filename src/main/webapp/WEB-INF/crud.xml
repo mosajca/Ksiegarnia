@@ -44,22 +44,29 @@ http://www.springframework.org/schema/security/spring-security.xsd">
     <bean id="myTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
     <tx:annotation-driven transaction-manager="myTransactionManager"/>
     <mvc:resources location="/resources/" mapping="/resources/**"/>
+    <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/login"/>
     <mvc:view-controller path="/logout"/>
 
     <sec:http>
+        <sec:intercept-url pattern="/" access="permitAll()"/>
+        <sec:intercept-url pattern="/adminregister" access="hasIpAddress('127.0.0.1') or hasIpAddress('::1')"/>
+        <sec:intercept-url pattern="/register" access="permitAll()"/>
         <sec:intercept-url pattern="/login" access="permitAll()"/>
         <sec:intercept-url pattern="/logout" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/list" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/**" access="hasRole('ADMIN')"/>
         <sec:form-login login-page="/login"/>
-        <sec:logout/>
+        <sec:logout logout-success-url="/"/>
     </sec:http>
-    <sec:user-service>
-        <sec:user name="user" password="{noop}user" authorities="ROLE_USER"/>
-        <sec:user name="admin" password="{noop}admin" authorities="ROLE_ADMIN"/>
-    </sec:user-service>
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:password-encoder ref="bcrypt"/>
+            <sec:jdbc-user-service data-source-ref="myDataSource"/>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
 </beans>
