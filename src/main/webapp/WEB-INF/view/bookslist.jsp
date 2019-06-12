@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pl">
@@ -12,9 +13,13 @@
 <body>
 <nav class="navbar navbar-light bg-light border">
     <div class="container">
-        <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/authors/list">Autorzy</a>
-        <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/categories/list">Kategorie</a>
+        <sec:authorize access="hasRole('ADMIN')">
+            <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/authors/list">Autorzy</a>
+            <a class="text-dark font-weight-bold"
+               href="${pageContext.request.contextPath}/categories/list">Kategorie</a>
+        </sec:authorize>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/books/list">Książki</a>
+        <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/logout">Wyloguj</a>
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Książki:</h3>
@@ -44,7 +49,7 @@
             <c:param name="sort" value="name"/>
         </c:url>
         <a href="${sortUrl}">tytuł</a>
-        <a href="${sortUrl.toString().replace("sort=name", "sort=price")}">cena</a>
+        <a href="${sortUrl.toString().replaceAll("sort=name", "sort=price")}">cena</a>
     </p>
 </div>
 <div>
@@ -56,8 +61,10 @@
             <th>Cena</th>
             <th>Kategoria</th>
             <th>Autorzy</th>
-            <th>Edytuj</th>
-            <th>Usuń</th>
+            <sec:authorize access="hasRole('ADMIN')">
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </sec:authorize>
         </tr>
         </thead>
         <tbody>
@@ -74,15 +81,19 @@
                 <td>${book.price}</td>
                 <td>${book.category.name}</td>
                 <td>${book.authors.toString().replaceAll("^\\[", "").replaceAll("]$", "")}</td>
-                <td><a href="${update}">edytuj</a></td>
-                <td><a href="${delete}">usuń</a></td>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <td><a href="${update}">edytuj</a></td>
+                    <td><a href="${delete}">usuń</a></td>
+                </sec:authorize>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-<div>
-    <a href="${pageContext.request.contextPath}/books/formadd" class="btn btn-dark">Dodaj książkę</a>
-</div>
+<sec:authorize access="hasRole('ADMIN')">
+    <div>
+        <a href="${pageContext.request.contextPath}/books/formadd" class="btn btn-dark">Dodaj książkę</a>
+    </div>
+</sec:authorize>
 </body>
 </html>
