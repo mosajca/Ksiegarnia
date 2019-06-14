@@ -1,7 +1,9 @@
 package project.services;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,16 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public List<Book> getBooks() {
         return bookDAO.getBooks();
+    }
+
+    @Override
+    @Transactional
+    public List<Book> getBooks(Set<Integer> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return bookDAO.getBooks(ids);
+        }
     }
 
     @Override

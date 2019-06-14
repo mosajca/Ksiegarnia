@@ -19,6 +19,9 @@
                href="${pageContext.request.contextPath}/categories/list">Kategorie</a>
         </sec:authorize>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/books/list">Książki</a>
+        <sec:authorize access="hasRole('USER')">
+            <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/cart">Koszyk</a>
+        </sec:authorize>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/logout">Wyloguj</a>
     </div>
 </nav>
@@ -65,6 +68,9 @@
                 <th>Edytuj</th>
                 <th>Usuń</th>
             </sec:authorize>
+            <sec:authorize access="hasRole('USER')">
+                <th>Do koszyka</th>
+            </sec:authorize>
         </tr>
         </thead>
         <tbody>
@@ -84,6 +90,14 @@
                 <sec:authorize access="hasRole('ADMIN')">
                     <td><a href="${update}">edytuj</a></td>
                     <td><a href="${delete}">usuń</a></td>
+                </sec:authorize>
+                <sec:authorize access="hasRole('USER')">
+                    <td>
+                        <form:form action="${pageContext.request.contextPath}/cart/add">
+                            <input type="hidden" id="bookId" name="bookId" value="${book.id}"/>
+                            <button type="submit" class="btn btn-dark">Do koszyka</button>
+                        </form:form>
+                    </td>
                 </sec:authorize>
             </tr>
         </c:forEach>

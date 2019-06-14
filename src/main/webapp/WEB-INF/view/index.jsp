@@ -19,6 +19,9 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/books/list">Książki</a>
+            <sec:authorize access="hasRole('USER')">
+                <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/cart">Koszyk</a>
+            </sec:authorize>
             <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/logout">Wyloguj</a>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">

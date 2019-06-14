@@ -1,6 +1,7 @@
 package project.services;
 
 import java.util.List;
+import java.util.Set;
 
 import project.dto.BookSearch;
 import project.entity.Book;
@@ -8,6 +9,8 @@ import project.entity.Book;
 public interface BookService {
 
     List<Book> getBooks();
+
+    List<Book> getBooks(Set<Integer> ids);
 
     List<Book> getBooks(String sort);
 
