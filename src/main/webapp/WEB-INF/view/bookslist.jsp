@@ -22,6 +22,7 @@
         <sec:authorize access="hasRole('USER')">
             <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/cart">Koszyk</a>
         </sec:authorize>
+        <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/orders">Zamówienia</a>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/logout">Wyloguj</a>
     </div>
 </nav>

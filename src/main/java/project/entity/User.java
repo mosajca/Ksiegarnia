@@ -25,9 +25,16 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Authority> authorities;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Order> orders;
+
     public User() {
         enabled = true;
         authorities = new ArrayList<>();
+    }
+
+    public User(String username) {
+        this.username = username;
     }
 
     public User(String username, String password) {
@@ -66,6 +73,14 @@ public class User {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 }

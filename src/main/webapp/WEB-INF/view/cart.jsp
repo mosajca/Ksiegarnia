@@ -14,6 +14,7 @@
     <div class="container">
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/books/list">Książki</a>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/cart">Koszyk</a>
+        <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/orders">Zamówienia</a>
         <a class="text-dark font-weight-bold" href="${pageContext.request.contextPath}/logout">Wyloguj</a>
     </div>
 </nav>
@@ -49,6 +50,9 @@
             </c:forEach>
             </tbody>
         </table>
+        <form:form method="post" action="${pageContext.request.contextPath}/orders">
+            <button type="submit" class="btn btn-dark">Zamów</button>
+        </form:form>
     </div>
 </c:if>
 </body>

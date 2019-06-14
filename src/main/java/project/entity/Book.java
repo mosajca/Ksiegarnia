@@ -45,6 +45,10 @@ public class Book {
     public Book() {
     }
 
+    public Book(int id) {
+        this.id = id;
+    }
+
     public Book(String name, String publisher, float price) {
         this.name = name;
         this.publisher = publisher;
