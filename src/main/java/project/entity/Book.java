@@ -118,6 +118,14 @@ public class Book {
         }
     }
 
+    public String toText() {
+        return ">>> tytuł: " + name +
+                ", autorzy: " + authors +
+                ", kategoria: " + category +
+                ", wydawnictwo: " + publisher +
+                ", cena: " + price;
+    }
+
     @Override
     public String toString() {
         return name;

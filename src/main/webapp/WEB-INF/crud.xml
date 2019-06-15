@@ -61,6 +61,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
         <sec:intercept-url pattern="/cart/**" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/orders" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/books/list" access="isAuthenticated()"/>
+        <sec:intercept-url pattern="/books/pdf" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/**" access="hasRole('ADMIN')"/>
         <sec:form-login login-page="/login"/>
         <sec:logout logout-success-url="/"/>

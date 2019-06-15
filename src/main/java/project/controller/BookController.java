@@ -1,6 +1,10 @@
 package project.controller;
 
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,12 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import project.dto.BookSearch;
 import project.entity.Book;
 import project.services.AuthorService;
 import project.services.BookService;
 import project.services.CategoryService;
+import project.util.PDF;
 
 @Controller
 @RequestMapping("/books")
@@ -76,6 +82,25 @@ public class BookController {
     public String deleteBook(@RequestParam("bookId") int bookId) {
         bookService.deleteBook(bookId);
         return "redirect:/books/list";
+    }
+
+    @GetMapping(value = "pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    @ResponseBody
+    public byte[] getPDF(HttpServletResponse response, @RequestParam(name = "sort", defaultValue = "") String sort) {
+        response.addHeader("Content-Disposition", "inline; filename=\"books.pdf\"");
+        return new PDF("Książki", bookService.getBooks(sort).stream().map(Book::toText).collect(Collectors.toList()))
+                .generate();
+    }
+
+    @GetMapping(value = "pdf", params = {"title", "publisher", "price", "category", "author"},
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    @ResponseBody
+    public byte[] getPDFSearch(HttpServletResponse response, @ModelAttribute("search") BookSearch search,
+                               @RequestParam(name = "sort", defaultValue = "") String sort) {
+        response.addHeader("Content-Disposition", "inline; filename=\"books.pdf\"");
+        return new PDF("Książki", bookService.getBooks(search, sort)
+                .stream().map(Book::toText).collect(Collectors.toList()))
+                .generate();
     }
 
 }

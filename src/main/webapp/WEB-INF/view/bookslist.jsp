@@ -55,6 +55,12 @@
         <a href="${sortUrl}">tytuł</a>
         <a href="${sortUrl.toString().replaceAll("sort=name", "sort=price")}">cena</a>
     </p>
+    <c:url var="pdfUrl" value="/books/pdf">
+        <c:forEach var="p" items="${param}">
+            <c:param name="${p.key}" value="${p.value}"/>
+        </c:forEach>
+    </c:url>
+    <a href="${pdfUrl}">pdf</a>
 </div>
 <div>
     <table class="table table-striped table-bordered table-hover">

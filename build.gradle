@@ -7,6 +7,8 @@ apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScr
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+compileJava.options.encoding = 'utf-8'
+
 repositories {
     mavenCentral()
 }
@@ -25,4 +27,5 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.1.5.RELEASE'
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.2.Final'
     compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.4.2.Final'
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.15'
 }
