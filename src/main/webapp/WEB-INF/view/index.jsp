@@ -32,9 +32,11 @@
     </div>
 </nav>
 <h2 class="text-center font-weight-bold mt-2">Księgarnia</h2>
+<div class="container-fluid">
 <sec:authorize access="isAuthenticated()">
     <p class="h3">Użytkownik: <c:out value="${pageContext.request.remoteUser}"/></p>
 </sec:authorize>
 <p class="h3">Witaj na stronie księgarni.</p>
+</div>
 </body>
 </html>

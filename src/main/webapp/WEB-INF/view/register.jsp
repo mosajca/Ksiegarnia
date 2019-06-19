@@ -16,6 +16,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Rejestracja</h3>
+<div class="container-fluid">
 <c:if test="${not empty info}"><p class="text-danger"><c:out value="${info}"/></p></c:if>
 <form:form method="post" modelAttribute="user">
     <table>
@@ -36,5 +37,6 @@
         </tbody>
     </table>
 </form:form>
+</div>
 </body>
 </html>

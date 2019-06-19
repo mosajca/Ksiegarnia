@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -19,6 +20,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Koszyk:</h3>
+<div class="container-fluid">
 <c:if test="${not empty books}">
     <div>
         <table class="table table-striped table-bordered table-hover">
@@ -33,13 +35,15 @@
             </tr>
             </thead>
             <tbody>
+            <c:set var="totalPrice" value="0"/>
             <c:forEach var="book" items="${books}">
+                <c:set var="totalPrice" value="${totalPrice + book.price}"/>
                 <tr>
-                    <td>${book.name}</td>
-                    <td>${book.publisher}</td>
-                    <td>${book.price}</td>
-                    <td>${book.category.name}</td>
-                    <td>${book.authors.toString().replaceAll("^\\[", "").replaceAll("]$", "")}</td>
+                    <td><c:out value="${book.name}"/></td>
+                    <td><c:out value="${book.publisher}"/></td>
+                    <td><c:out value="${book.price}"/></td>
+                    <td><c:out value="${book.category.name}"/></td>
+                    <td><c:out value="${book.authorsToString()}"/></td>
                     <td>
                         <form:form action="${pageContext.request.contextPath}/cart/delete">
                             <input type="hidden" id="bookId" name="bookId" value="${book.id}"/>
@@ -54,6 +58,8 @@
             <button type="submit" class="btn btn-dark">Zamów</button>
         </form:form>
     </div>
+    <p>cena: <fmt:formatNumber value="${totalPrice}" maxFractionDigits="2"/></p>
 </c:if>
+</div>
 </body>
 </html>

@@ -27,23 +27,24 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Książki:</h3>
-<div>
+<div class="container-fluid">
+<div class="text-center">
     <form:form method="get" modelAttribute="search">
         <label for="title">Tytuł:</label>
-        <form:input path="title" id="title"/>
+        <form:input path="title" id="title" size="18"/>
         <label for="publisher">Wydawnictwo:</label>
-        <form:input path="publisher" id="publisher"/>
+        <form:input path="publisher" id="publisher" size="18"/>
         <label for="price">Cena:</label>
-        <form:input path="price" id="price"/>
+        <form:input path="price" id="price" size="18"/>
         <label for="category">Kategoria:</label>
-        <form:input path="category" id="category"/>
+        <form:input path="category" id="category" size="18"/>
         <label for="author">Autor:</label>
-        <form:input path="author" id="author"/>
+        <form:input path="author" id="author" size="18"/>
         <button type="submit" class="btn btn-dark">Szukaj</button>
     </form:form>
 </div>
 <div>
-    <p>sortuj:
+    <p class="d-inline">sortuj:
         <c:url var="sortUrl" value="/books/list">
             <c:forEach var="p" items="${param}">
                 <c:if test="${p.key ne 'sort'}">
@@ -55,12 +56,14 @@
         <a href="${sortUrl}">tytuł</a>
         <a href="${sortUrl.toString().replaceAll("sort=name", "sort=price")}">cena</a>
     </p>
-    <c:url var="pdfUrl" value="/books/pdf">
-        <c:forEach var="p" items="${param}">
-            <c:param name="${p.key}" value="${p.value}"/>
-        </c:forEach>
-    </c:url>
-    <a href="${pdfUrl}">pdf</a>
+    <p class="d-inline float-right">generuj:
+        <c:url var="pdfUrl" value="/books/pdf">
+            <c:forEach var="p" items="${param}">
+                <c:param name="${p.key}" value="${p.value}"/>
+            </c:forEach>
+        </c:url>
+        <a href="${pdfUrl}">pdf</a>
+    </p>
 </div>
 <div>
     <table class="table table-striped table-bordered table-hover">
@@ -89,11 +92,11 @@
                 <c:param name="bookId" value="${book.id}"/>
             </c:url>
             <tr>
-                <td>${book.name}</td>
-                <td>${book.publisher}</td>
-                <td>${book.price}</td>
-                <td>${book.category.name}</td>
-                <td>${book.authors.toString().replaceAll("^\\[", "").replaceAll("]$", "")}</td>
+                <td><c:out value="${book.name}"/></td>
+                <td><c:out value="${book.publisher}"/></td>
+                <td><c:out value="${book.price}"/></td>
+                <td><c:out value="${book.category.name}"/></td>
+                <td><c:out value="${book.authorsToString()}"/></td>
                 <sec:authorize access="hasRole('ADMIN')">
                     <td><a href="${update}">edytuj</a></td>
                     <td><a href="${delete}">usuń</a></td>
@@ -116,5 +119,6 @@
         <a href="${pageContext.request.contextPath}/books/formadd" class="btn btn-dark">Dodaj książkę</a>
     </div>
 </sec:authorize>
+</div>
 </body>
 </html>

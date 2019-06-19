@@ -19,6 +19,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Kategorie:</h3>
+<div class="container-fluid">
 <div>
     <table class="table table-striped table-bordered table-hover">
         <thead class="thead-dark">
@@ -37,7 +38,7 @@
                 <c:param name="categoryId" value="${category.id}"/>
             </c:url>
             <tr>
-                <td>${category.name}</td>
+                <td><c:out value="${category.name}"/></td>
                 <td><a href="${update}">edytuj</a></td>
                 <td><a href="${delete}">usuń</a></td>
             </tr>
@@ -47,6 +48,7 @@
 </div>
 <div>
     <a href="${pageContext.request.contextPath}/categories/formadd" class="btn btn-dark">Dodaj kategorię</a>
+</div>
 </div>
 </body>
 </html>

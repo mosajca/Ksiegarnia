@@ -41,18 +41,18 @@ public class CategoryController {
         return "redirect:/categories/list";
     }
 
-    @GetMapping("updateCategoryForm")
+    @GetMapping("/updateCategoryForm")
     public String updateCategoryForm(@RequestParam("categoryId") int categoryId, Model model) {
         model.addAttribute("category", categoryService.getCategory(categoryId));
         return "addcategoryform";
     }
 
-    @GetMapping("deleteCategoryForm")
+    @GetMapping("/deleteCategoryForm")
     public String deleteCategoryForm() {
         return "delete";
     }
 
-    @PostMapping("deleteCategoryForm")
+    @PostMapping("/deleteCategoryForm")
     public String deleteCategory(@RequestParam("categoryId") int categoryId) {
         categoryService.deleteCategory(categoryId);
         return "redirect:/categories/list";

@@ -56,7 +56,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
         <sec:intercept-url pattern="/" access="permitAll()"/>
         <sec:intercept-url pattern="/adminregister" access="hasIpAddress('127.0.0.1') or hasIpAddress('::1')"/>
         <sec:intercept-url pattern="/register" access="permitAll()"/>
-        <sec:intercept-url pattern="/login" access="permitAll()"/>
+        <sec:intercept-url pattern="/login" access="isAnonymous()"/>
         <sec:intercept-url pattern="/logout" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/cart/**" access="hasRole('USER')"/>
         <sec:intercept-url pattern="/orders" access="isAuthenticated()"/>

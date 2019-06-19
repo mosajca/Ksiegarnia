@@ -1,11 +1,11 @@
 package project.entity;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +30,7 @@ public class Book {
     @Column(name = "cena")
     private float price;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "autorzy_to_ksiazki",
             joinColumns = @JoinColumn(name = "ksiazka_id"),
@@ -41,6 +41,9 @@ public class Book {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "kategoria_id")
     private Category category;
+
+    @ManyToMany(mappedBy = "books")
+    private Set<Order> orders;
 
     public Book() {
     }
@@ -103,6 +106,14 @@ public class Book {
         this.category = category;
     }
 
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
     public void addAuthor(Author author) {
         if (authors == null) {
             authors = new HashSet<>();
@@ -112,15 +123,33 @@ public class Book {
     }
 
     public void removeAuthor(Author author) {
-        if (authors != null) {
-            authors.remove(author);
+        if (authors != null && authors.remove(author)) {
             author.removeBook(this);
         }
     }
 
+    public void addOrder(Order order) {
+        if (orders == null) {
+            orders = new HashSet<>();
+        }
+        orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        if (orders != null) {
+            orders.remove(order);
+        }
+    }
+
+    public String authorsToString() {
+        return Optional.ofNullable(authors)
+                .map(a -> a.toString().replaceAll("^\\[", "").replaceAll("]$", ""))
+                .orElse("");
+    }
+
     public String toText() {
         return ">>> tytuł: " + name +
-                ", autorzy: " + authors +
+                ", autorzy: " + authorsToString() +
                 ", kategoria: " + category +
                 ", wydawnictwo: " + publisher +
                 ", cena: " + price;

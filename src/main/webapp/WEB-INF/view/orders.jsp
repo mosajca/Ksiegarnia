@@ -27,6 +27,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Zamówienia:</h3>
+<div class="container-fluid">
 <c:if test="${not empty orders}">
     <div>
         <table class="table table-striped table-bordered table-hover">
@@ -45,12 +46,12 @@
             <tbody>
             <c:forEach var="order" items="${orders}">
                 <tr>
-                    <td>${order.creationTimestamp}</td>
-                    <td>${order.books.toString().replaceAll("^\\[", "").replaceAll("]$", "")}</td>
-                    <td>${order.price}</td>
-                    <td>${order.status}</td>
+                    <td><c:out value="${order.timestampToString()}"/></td>
+                    <td><c:out value="${order.booksToString()}"/></td>
+                    <td><c:out value="${order.price}"/></td>
+                    <td><c:out value="${order.status}"/></td>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <td>${order.user.username}</td>
+                        <td><c:out value="${order.user.username}"/></td>
                         <td>
                             <form:form action="${pageContext.request.contextPath}/orders/complete">
                                 <input type="hidden" id="orderId" name="orderId" value="${order.id}"/>
@@ -64,5 +65,6 @@
         </table>
     </div>
 </c:if>
+</div>
 </body>
 </html>

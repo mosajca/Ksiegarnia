@@ -50,10 +50,11 @@ public class OrderController {
         order.setUser(new User(authentication.getName()));
         order.setBooks(new HashSet<>(bookService.getBooks(cart.getBookIds())));
         orderService.saveOrder(order);
+        cart.getBookIds().clear();
         return "redirect:/orders";
     }
 
-    @PostMapping("complete")
+    @PostMapping("/complete")
     public String completeOrder(@RequestParam(name = "orderId") int id) {
         orderService.completeOrder(id);
         return "redirect:/orders";

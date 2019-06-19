@@ -41,18 +41,18 @@ public class AuthorController {
         return "redirect:/authors/list";
     }
 
-    @GetMapping("updateAuthorForm")
+    @GetMapping("/updateAuthorForm")
     public String updateAuthorForm(@RequestParam("authorId") int authorId, Model model) {
         model.addAttribute("author", authorService.getAuthor(authorId));
         return "addauthorform";
     }
 
-    @GetMapping("deleteAuthorForm")
+    @GetMapping("/deleteAuthorForm")
     public String deleteAuthorForm() {
         return "delete";
     }
 
-    @PostMapping("deleteAuthorForm")
+    @PostMapping("/deleteAuthorForm")
     public String deleteAuthor(@RequestParam("authorId") int authorId) {
         authorService.deleteAuthor(authorId);
         return "redirect:/authors/list";

@@ -19,6 +19,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Dodaj / edytuj kategorię</h3>
+<div class="container-fluid">
 <form:form action="saveCategory" modelAttribute="category" method="POST">
     <table>
         <tbody>
@@ -37,5 +38,6 @@
         </tbody>
     </table>
 </form:form>
+</div>
 </body>
 </html>

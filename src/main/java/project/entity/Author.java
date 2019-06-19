@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -25,12 +23,7 @@ public class Author {
     @Column(name = "nazwisko")
     private String lastName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "autorzy_to_ksiazki",
-            joinColumns = @JoinColumn(name = "autor_id"),
-            inverseJoinColumns = @JoinColumn(name = "ksiazka_id")
-    )
+    @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
     public Author() {

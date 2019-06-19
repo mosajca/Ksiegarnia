@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public List<Book> getBooks(String sort) {
         if (columns.contains(sort)) {
-            return bookDAO.getBooks(sort);
+            return bookDAO.getBooks(null, sort);
         } else {
             return bookDAO.getBooks();
         }

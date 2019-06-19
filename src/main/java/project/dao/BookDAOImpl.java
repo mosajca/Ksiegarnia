@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -35,38 +36,31 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> getBooks() {
         Session currentSession = sessionFactory.getCurrentSession();
-        Query<Book> query = currentSession.createQuery("from Book", Book.class);
+        Query<Book> query = currentSession.createQuery("select distinct b from Book b " +
+                "left join fetch b.authors", Book.class);
         return query.getResultList();
     }
 
     @Override
     public List<Book> getBooks(Set<Integer> ids) {
         Session currentSession = sessionFactory.getCurrentSession();
-        Query<Book> query = currentSession.createQuery("from Book where id in (:ids)", Book.class)
+        Query<Book> query = currentSession.createQuery("select distinct b from Book b " +
+                "left join fetch b.authors where b.id in (:ids)", Book.class)
                 .setParameterList("ids", ids);
         return query.getResultList();
     }
 
     @Override
-    public List<Book> getBooks(String sort) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        CriteriaBuilder builder = currentSession.getCriteriaBuilder();
-        CriteriaQuery<Book> query = builder.createQuery(Book.class);
-        Root<Book> book = query.from(Book.class);
-        query.select(book).orderBy(builder.asc(book.get(sort)));
-        return currentSession.createQuery(query).getResultList();
-    }
-
-    @Override
     public void saveBook(Book book) {
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(book);
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.saveOrUpdate(book);
     }
 
     @Override
     public Book getBook(int bookId) {
         Session currentSession = sessionFactory.getCurrentSession();
-        Query<Book> query = currentSession.createQuery("from Book where id=:id", Book.class)
+        Query<Book> query = currentSession.createQuery("select distinct b from Book b " +
+                "left join fetch b.authors where b.id=:id", Book.class)
                 .setParameter("id", bookId);
         return query.getSingleResult();
     }
@@ -84,8 +78,11 @@ public class BookDAOImpl implements BookDAO {
         CriteriaBuilder builder = currentSession.getCriteriaBuilder();
         CriteriaQuery<Book> query = builder.createQuery(Book.class);
         Root<Book> book = query.from(Book.class);
-        query.select(book).where(getPredicates(builder, book, search));
-        Optional.ofNullable(sort).ifPresent(s -> query.orderBy(builder.asc(book.get(s))));
+        book.fetch("authors", JoinType.LEFT);
+        query.select(book);
+        Optional.ofNullable(search).ifPresent(s -> query.where(getPredicates(builder, book, search)));
+        Optional.ofNullable(sort).ifPresent(s -> query.orderBy(builder.asc(book.get(sort))));
+        query.distinct(true);
         return currentSession.createQuery(query).getResultList();
     }
 

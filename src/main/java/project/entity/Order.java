@@ -1,7 +1,9 @@
 package project.entity;
 
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -105,13 +107,27 @@ public class Order {
             books = new HashSet<>();
         }
         books.add(book);
+        book.addOrder(this);
         price += book.getPrice();
     }
 
     public void removeBook(Book book) {
         if (books != null && books.remove(book)) {
+            book.removeOrder(this);
             price -= book.getPrice();
         }
+    }
+
+    public String booksToString() {
+        return Optional.ofNullable(books)
+                .map(b -> b.toString().replaceAll("^\\[", "").replaceAll("]$", ""))
+                .orElse("");
+    }
+
+    public String timestampToString() {
+        return Optional.ofNullable(creationTimestamp)
+                .map(t -> t.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .orElse("");
     }
 
 }

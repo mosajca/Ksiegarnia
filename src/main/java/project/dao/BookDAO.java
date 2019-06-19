@@ -12,8 +12,6 @@ public interface BookDAO {
 
     List<Book> getBooks(Set<Integer> ids);
 
-    List<Book> getBooks(String sort);
-
     List<Book> getBooks(BookSearch search, String sort);
 
     void saveBook(Book book);

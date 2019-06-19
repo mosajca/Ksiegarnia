@@ -65,7 +65,7 @@ public class BookController {
         return "redirect:/books/list";
     }
 
-    @GetMapping("updateBookForm")
+    @GetMapping("/updateBookForm")
     public String updateBookForm(@RequestParam("bookId") int bookId, Model model) {
         model.addAttribute("book", bookService.getBook(bookId));
         model.addAttribute("authors", authorService.getAuthors());
@@ -73,18 +73,18 @@ public class BookController {
         return "addbookform";
     }
 
-    @GetMapping("deleteBookForm")
+    @GetMapping("/deleteBookForm")
     public String deleteBookForm() {
         return "delete";
     }
 
-    @PostMapping("deleteBookForm")
+    @PostMapping("/deleteBookForm")
     public String deleteBook(@RequestParam("bookId") int bookId) {
         bookService.deleteBook(bookId);
         return "redirect:/books/list";
     }
 
-    @GetMapping(value = "pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     @ResponseBody
     public byte[] getPDF(HttpServletResponse response, @RequestParam(name = "sort", defaultValue = "") String sort) {
         response.addHeader("Content-Disposition", "inline; filename=\"books.pdf\"");
@@ -92,7 +92,7 @@ public class BookController {
                 .generate();
     }
 
-    @GetMapping(value = "pdf", params = {"title", "publisher", "price", "category", "author"},
+    @GetMapping(value = "/pdf", params = {"title", "publisher", "price", "category", "author"},
             produces = MediaType.APPLICATION_PDF_VALUE)
     @ResponseBody
     public byte[] getPDFSearch(HttpServletResponse response, @ModelAttribute("search") BookSearch search,

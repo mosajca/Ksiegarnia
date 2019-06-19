@@ -16,8 +16,10 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Logowanie</h3>
+<div class="container-fluid">
 <c:if test="${(param.error != null) && (not empty SPRING_SECURITY_LAST_EXCEPTION)}">
-    <p class="text-danger"><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
+    <p class="text-danger"><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message eq 'Bad credentials' ?
+     'Niepoprawne dane' : SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
 </c:if>
 <form:form method="post">
     <table>
@@ -38,5 +40,6 @@
         </tbody>
     </table>
 </form:form>
+</div>
 </body>
 </html>

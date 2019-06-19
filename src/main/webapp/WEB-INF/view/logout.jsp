@@ -26,8 +26,10 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Czy na pewno chcesz się wylogować?</h3>
+<div class="container-fluid">
 <form:form method="post">
-    <button type="submit" class="btn btn-dark">wyloguj</button>
+    <button type="submit" class="btn btn-dark">Wyloguj</button>
 </form:form>
+</div>
 </body>
 </html>

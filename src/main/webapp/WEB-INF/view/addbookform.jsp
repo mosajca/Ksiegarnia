@@ -20,6 +20,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Dodaj / edytuj książkę</h3>
+<div class="container-fluid">
 <form:form action="saveBook" modelAttribute="book" method="POST">
     <table>
         <tbody>
@@ -58,5 +59,6 @@
         </tbody>
     </table>
 </form:form>
+</div>
 </body>
 </html>

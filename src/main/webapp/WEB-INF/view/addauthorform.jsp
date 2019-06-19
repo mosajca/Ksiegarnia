@@ -19,6 +19,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Dodaj / edytuj autora</h3>
+<div class="container-fluid">
 <form:form action="saveAuthor" modelAttribute="author" method="POST">
     <table>
         <tbody>
@@ -41,5 +42,6 @@
         </tbody>
     </table>
 </form:form>
+</div>
 </body>
 </html>

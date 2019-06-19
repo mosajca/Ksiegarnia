@@ -65,8 +65,7 @@ public class Category {
     }
 
     public void removeBook(Book book) {
-        if (books != null) {
-            books.remove(book);
+        if (books != null && books.remove(book)) {
             book.setCategory(null);
         }
     }

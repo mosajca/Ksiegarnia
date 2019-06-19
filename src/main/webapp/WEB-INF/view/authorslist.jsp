@@ -19,6 +19,7 @@
     </div>
 </nav>
 <h3 class="text-center font-weight-bold mt-2">Autorzy:</h3>
+<div class="container-fluid">
 <div>
     <table class="table table-striped table-bordered table-hover">
         <thead class="thead-dark">
@@ -38,8 +39,8 @@
                 <c:param name="authorId" value="${author.id}"/>
             </c:url>
             <tr>
-                <td>${author.firstName}</td>
-                <td>${author.lastName}</td>
+                <td><c:out value="${author.firstName}"/></td>
+                <td><c:out value="${author.lastName}"/></td>
                 <td><a href="${update}">edytuj</a></td>
                 <td><a href="${delete}">usuń</a></td>
             </tr>
@@ -49,6 +50,7 @@
 </div>
 <div>
     <a href="${pageContext.request.contextPath}/authors/formadd" class="btn btn-dark">Dodaj autora</a>
+</div>
 </div>
 </body>
 </html>
